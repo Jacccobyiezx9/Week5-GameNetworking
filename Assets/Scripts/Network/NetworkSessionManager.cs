@@ -28,6 +28,7 @@ namespace Network
         public event Action<PlayerRef> OnPlayerLeftEvent;
 
         private bool _crouchToggle;
+        private bool _crouchPressedPending;
         #endregion
 
         public async void StartGame(GameMode game)
@@ -72,8 +73,15 @@ namespace Network
             #endif
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                _crouchPressedPending = true;
+            }
+        }
         #endregion
-    
+
         #region Used Fusion Callbacks
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
@@ -100,15 +108,14 @@ namespace Network
             //Run
             data.SprintInput = Input.GetKey(KeyCode.LeftShift);
 
-            //Crouch
             // Crouch toggle
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (_crouchPressedPending)
             {
                 _crouchToggle = !_crouchToggle;
+                _crouchPressedPending = false;
             }
 
             data.CrouchInput = _crouchToggle;
-
             input.Set(data);
         }
     
@@ -121,7 +128,6 @@ namespace Network
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
-            //if (!_spawnedCharacters.TryGetValue(player, out var playerObject)) return;
             _joinedPlayers.Remove(player);
             OnPlayerLeftEvent?.Invoke(player);
         }

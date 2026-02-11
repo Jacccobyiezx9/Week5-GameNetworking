@@ -87,7 +87,6 @@ public class NetworkPlayer : NetworkBehaviour
         };
     }
 
-
     public override void Render()
     {
         if (_meshRenderer != null && _meshRenderer.material.color != PlayerColor)
@@ -107,29 +106,17 @@ public class NetworkPlayer : NetworkBehaviour
         if (AnimatorData.Forward)
         {
             _animator.SetBool("Forward", true);
-            _animator.SetBool("Back", false);
-            _animator.SetBool("Left", false);
-            _animator.SetBool("Right", false);
         }
         else if (AnimatorData.Back)
         {
-            _animator.SetBool("Forward", false);
             _animator.SetBool("Back", true);
-            _animator.SetBool("Left", false);
-            _animator.SetBool("Right", false);
         }
         else if (AnimatorData.Left)
         {
-            _animator.SetBool("Forward", false);
-            _animator.SetBool("Back", false);
             _animator.SetBool("Left", true);
-            _animator.SetBool("Right", false);
         }
         else if (AnimatorData.Right)
         {
-            _animator.SetBool("Forward", false);
-            _animator.SetBool("Back", false);
-            _animator.SetBool("Left", false);
             _animator.SetBool("Right", true);
         }
         else
@@ -140,12 +127,8 @@ public class NetworkPlayer : NetworkBehaviour
             _animator.SetBool("Right", false);
         }
 
-      
-
         //Run
         _animator.SetFloat(Speed, AnimatorData.Speed);
-
-        
     }
 
     public void LateUpdate()
@@ -170,8 +153,6 @@ public class NetworkPlayer : NetworkBehaviour
         {
             this.PlayerName = color;
         }
-        //example of how to use string
-        //this.PlayerName.ToString();
     }
 
     #endregion

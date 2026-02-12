@@ -45,9 +45,29 @@ namespace Network
             {
                 GameMode = game,
                 SessionName = "TestSession",
+                SessionNameGenerator = GenerateSessionID,
                 Scene = scene,
                 SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
             });
+            TestSessionID();
+        }
+        public void TestSessionID()
+        {
+            Debug.Log(GenerateSessionID());
+        }
+
+        public string GenerateSessionID()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            var random = new System.Random();
+            var code = new char[6];
+            
+            for (var i =0; i < 6; i++)
+            {
+                code[i] = chars[random.Next(chars.Length)];
+            }
+
+            return new string(code);
         }
     
         #region Unity Callbacks
